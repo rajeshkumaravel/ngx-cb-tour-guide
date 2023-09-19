@@ -1,5 +1,12 @@
 
 export interface TourStep {
+    icon?: string,
+    connectorDirection?: string,
+    nextBtnClass?: string,
+    backBtnClass?: string,
+    skipBtnClass?: string,
+    containerClass?: string,
+    class?: string,
     /** Selector for element that will be highlighted */
     selector?: string;
     /** Tour title text */
@@ -72,4 +79,5 @@ export enum ProgressIndicatorLocation {
     InsideNextButton = 'inside-next-button',
     TopOfTourBlock = 'top-of-tour-block',
     None = 'none',
+    Dots = 'dots'
 }  

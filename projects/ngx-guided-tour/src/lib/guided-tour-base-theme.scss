@@ -4,6 +4,7 @@ $tour-text-color: #231f1f !default;
 $tour-next-button-color: #007bff !default;
 $tour-next-button-hover: #0069d9 !default;
 $tour-back-button-color: #007bff !default;
+$tour-back-text-color: #ffffff !default;
 $tour-next-text-color: #ffffff !default;
 $tour-next-text-hover: #ffffff !default;
 $tour-skip-link-color: #5e5e5e !default;
@@ -115,7 +116,9 @@ ngx-guided-tour {
             }
 
             .back-button {
-                color: $tour-back-button-color;
+                background-color: $tour-back-button-color;
+                color: $tour-back-text-color;
+                margin-right: 10px;
             }
 
             .next-button {
@@ -126,6 +129,15 @@ ngx-guided-tour {
                     color: $tour-next-text-hover;
                 }
             }
+        }
+        .tour-button-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .tour-image {
+            text-align: center;
         }
     }
 
