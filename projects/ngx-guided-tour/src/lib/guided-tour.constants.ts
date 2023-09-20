@@ -6,6 +6,7 @@ export interface TourStep {
     backBtnClass?: string,
     skipBtnClass?: string,
     containerClass?: string,
+    isMobile?: boolean;
     class?: string,
     /** Selector for element that will be highlighted */
     selector?: string;
@@ -36,6 +37,8 @@ export interface GuidedTour {
     useOrb?: boolean;
     /** Steps fo the tour */
     steps: TourStep[];
+    nextCallback?: (currentStep: number, stepObject: object) => void;
+    prevCallback?: (currentStep: number, stepObject: object) => void;
     /** Function will be called when tour is skipped */
     skipCallback?: (stepSkippedOn: number) => void;
     /** Function will be called when tour is completed */

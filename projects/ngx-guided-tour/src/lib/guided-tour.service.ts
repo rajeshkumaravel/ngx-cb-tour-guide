@@ -69,6 +69,9 @@ export class GuidedTourService {
                     this.nextStep();
                 }
             }
+            if (this._currentTour.nextCallback) {
+                this._currentTour.nextCallback(this._currentTourStepIndex, this._currentTour.steps[this._currentTourStepIndex]);
+            }
         } else {
             if (this._currentTour.completeCallback) {
                 this._currentTour.completeCallback();
@@ -99,6 +102,9 @@ export class GuidedTourService {
                 } else {
                     this.backStep();
                 }
+            }
+            if (this._currentTour.nextCallback) {
+                this._currentTour.prevCallback(this._currentTourStepIndex, this._currentTour.steps[this._currentTourStepIndex]);
             }
         } else {
             this.resetTour();

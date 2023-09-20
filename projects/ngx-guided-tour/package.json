@@ -1,6 +1,6 @@
 {
-    "name": "ngx-guided-tour",
-    "version": "1.1.11",
+    "name": "cb-tour-guide",
+    "version": "1.0.1",
     "description": "Guided tour for your Angular6+ applications.",
     "peerDependencies": {
         "@angular/common": ">=6.0.0",
@@ -9,7 +9,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/lsqlabs/ngx-guided-tour.git"
+        "url": "git+https://github.com/rajeshkumaravel/ngx-cb-tour-guide.git"
     },
     "keywords": [
         "guided",
@@ -26,12 +26,11 @@
         "ng2"
     ],
     "author": {
-        "name": "lsqlabs",
-        "email": "developers@lsq.com"
+        "name": "lsqlabs"
     },
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/lsqlabs/ngx-guided-tour/issues"
+        "url": "https://github.com/rajeshkumaravel/ngx-cb-tour-guide/issues"
     },
-    "homepage": "https://github.com/lsqlabs/ngx-guided-tour#readme"
+    "homepage": "https://github.com/rajeshkumaravel/ngx-cb-tour-guide#readme"
 }

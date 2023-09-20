@@ -1,0 +1,157 @@
+<div *ngIf="currentTourStep && selectedElementRect && isOrbShowing" (mouseenter)="handleOrb()"
+  class="tour-orb tour-{{ currentTourStep.orientation }}" [style.top.px]="orbTopPosition"
+  [style.left.px]="orbLeftPosition" [style.transform]="orbTransform">
+  <div class="tour-orb-ring"></div>
+</div>
+<div *ngIf="currentTourStep && !isOrbShowing">
+  <div class="guided-tour-user-input-mask" (click)="backdropClick($event)"></div>
+  <div class="" [attr.class]="'guided-tour-spotlight-overlay ' + currentTourStep?.class" [style.top.px]="overlayTop"
+    [style.left.px]="overlayLeft" [style.height.px]="overlayHeight" [style.width.px]="overlayWidth">
+  </div>
+</div>
+<div *ngIf="currentTourStep && !isOrbShowing">
+  <div #tourStep *ngIf="currentTourStep"
+    class="tour-step tour-{{ currentTourStep.orientation}} {{currentTourStep?.containerClass}}" [ngClass]="{
+                    'page-tour-step': !currentTourStep.selector,
+                    'right-panel': currentTourStep.connectorDirection == 'right',
+                    'left-panel': currentTourStep.connectorDirection == 'left',
+                    'bottom-panel': currentTourStep.connectorDirection == 'bottom',
+                    'top-panel': currentTourStep.connectorDirection == 'top'
+                }" [style.top.px]="(currentTourStep.selector && selectedElementRect ? topPosition : null)"
+    [style.left.px]="(currentTourStep.selector && selectedElementRect ? leftPosition : null)"
+    [style.width.px]="(currentTourStep.selector && selectedElementRect ? calculatedTourStepWidth : null)"
+    [style.transform]="(currentTourStep.selector && selectedElementRect ? transform : null)">
+
+    <div *ngIf="currentTourStep.isMobile && currentTourStep.connectorDirection == 'bottom'" class="tour-buttons tour-button-container">
+      <div class="tour-actions-button-container">
+        <button *ngIf="!guidedTourService.onFirstStep && !guidedTourService.onResizeMessage"
+          [attr.class]="currentTourStep?.backBtnClass + ' back-button'" (click)="guidedTourService.backStep()">
+          {{ backText }}
+        </button>
+      </div>
+      <button *ngIf="!guidedTourService.onLastStep && !guidedTourService.onResizeMessage" class="next-button"
+        (click)="guidedTourService.nextStep()">
+        {{ nextText }}
+        <ng-container *ngIf="progressIndicatorLocation === progressIndicatorLocations.InsideNextButton">
+          <ng-container *ngTemplateOutlet="progress"></ng-container>
+        </ng-container>
+      </button>
+      <button *ngIf="guidedTourService.onLastStep" [attr.class]="currentTourStep?.nextBtnClass + ' next-button'"
+        (click)="guidedTourService.nextStep()">
+        {{ doneText }}
+      </button>
+      <button *ngIf="guidedTourService.onResizeMessage" class="next-button" (click)="guidedTourService.resetTour()">
+        {{ closeText }}
+      </button>
+
+    </div>
+
+    <div *ngIf="currentTourStep.selector" class="tour-arrow"></div>
+    <div class="tour-block">
+      <div class="arrow" [ngClass]="{
+                        'right-connector': (currentTourStep.selector && currentTourStep.connectorDirection == 'right'),
+                        'left-connector': (currentTourStep.selector && currentTourStep.connectorDirection == 'left'),
+                        'bottom-connector': (currentTourStep.selector && currentTourStep.connectorDirection == 'bottom'),
+                        'top-connector': (currentTourStep.selector && currentTourStep.connectorDirection == 'top')
+                    }">
+        <div class="circle"></div>
+        <div class="circle-start-dot"></div>
+        <div class="triangle"></div>
+      </div>
+
+      <div *ngIf="progressIndicatorLocation === progressIndicatorLocations.TopOfTourBlock
+                        && !guidedTourService.onResizeMessage" class="tour-progress-indicator">
+        <ng-container *ngTemplateOutlet="progress"></ng-container>
+      </div>
+      <div class="tour-image" *ngIf="currentTourStep.icon && currentTourStep.selector">
+        <mat-icon>{{currentTourStep.icon}}</mat-icon>
+      </div>
+      <h3 class="tour-title" *ngIf="currentTourStep.title && currentTourStep.selector">
+        {{ currentTourStep.title }}
+      </h3>
+      <h2 class="tour-title" *ngIf="currentTourStep.title && !currentTourStep.selector">
+        {{ currentTourStep.title }}
+      </h2>
+      <div class="tour-content" [innerHTML]="currentTourStep.content"></div>
+      <div *ngIf="!currentTourStep.isMobile" class="tour-buttons tour-button-container">
+        <!-- <div class="tour-skip-container">
+                            <button *ngIf="!guidedTourService.onResizeMessage"
+                                (click)="guidedTourService.skipTour()"
+                                [attr.class]="currentTourStep?.skipBtnClass + ' skip-button link-button'">
+                                {{ skipText }}
+                            </button>
+                        </div> -->
+        <div class="tour-actions-button-container">
+          <button *ngIf="!guidedTourService.onFirstStep && !guidedTourService.onResizeMessage"
+            [attr.class]="currentTourStep?.backBtnClass + ' back-button'" (click)="guidedTourService.backStep()">
+            {{ backText }}
+          </button>
+        </div>
+        <button *ngIf="!guidedTourService.onLastStep && !guidedTourService.onResizeMessage" class="next-button"
+          (click)="guidedTourService.nextStep()">
+          {{ nextText }}
+          <ng-container *ngIf="progressIndicatorLocation === progressIndicatorLocations.InsideNextButton">
+            <ng-container *ngTemplateOutlet="progress"></ng-container>
+          </ng-container>
+        </button>
+        <button *ngIf="guidedTourService.onLastStep" [attr.class]="currentTourStep?.nextBtnClass + ' next-button'"
+          (click)="guidedTourService.nextStep()">
+          {{ doneText }}
+        </button>
+        <button *ngIf="guidedTourService.onResizeMessage" class="next-button" (click)="guidedTourService.resetTour()">
+          {{ closeText }}
+        </button>
+
+      </div>
+
+
+      <div class="progress-container">
+        <ng-container *ngIf="progressIndicatorLocation === progressIndicatorLocations.Dots">
+          <ng-container *ngTemplateOutlet="progress"></ng-container>
+        </ng-container>
+      </div>
+
+    </div>
+    <div *ngIf="currentTourStep.isMobile && currentTourStep.connectorDirection != 'bottom'" class="tour-buttons tour-button-container">
+      <div class="tour-actions-button-container">
+        <button *ngIf="!guidedTourService.onFirstStep && !guidedTourService.onResizeMessage"
+          [attr.class]="currentTourStep?.backBtnClass + ' back-button'" (click)="guidedTourService.backStep()">
+          {{ backText }}
+        </button>
+      </div>
+      <button *ngIf="!guidedTourService.onLastStep && !guidedTourService.onResizeMessage" class="next-button"
+        (click)="guidedTourService.nextStep()">
+        {{ nextText }}
+        <ng-container *ngIf="progressIndicatorLocation === progressIndicatorLocations.InsideNextButton">
+          <ng-container *ngTemplateOutlet="progress"></ng-container>
+        </ng-container>
+      </button>
+      <button *ngIf="guidedTourService.onLastStep" [attr.class]="currentTourStep?.nextBtnClass + ' next-button'"
+        (click)="guidedTourService.nextStep()">
+        {{ doneText }}
+      </button>
+      <button *ngIf="guidedTourService.onResizeMessage" class="next-button" (click)="guidedTourService.resetTour()">
+        {{ closeText }}
+      </button>
+
+    </div>
+  </div>
+  <ng-template #progress>
+    <ng-container *ngTemplateOutlet="
+                progressIndicator || defaultProgressIndicator; 
+                context: { currentStepNumber: guidedTourService.currentTourStepDisplay, totalSteps: guidedTourService.currentTourStepCount }
+            "></ng-container>
+  </ng-template>
+  <ng-template #defaultProgressIndicator let-currentStepNumber="currentStepNumber" let-totalSteps="totalSteps">
+    <!-- <ng-container *ngIf="progressIndicatorLocation === progressIndicatorLocations.InsideNextButton">&nbsp;</ng-container>{{ currentStepNumber }}/{{ totalSteps }} -->
+    <ng-container *ngIf="progressIndicatorLocation === progressIndicatorLocations.Dots">
+      <div class="pagination">
+        <li class="nav-dots">
+          <ng-container *ngFor="let dot of [].constructor(totalSteps); first as isFirst; index as i">
+            <label [ngClass]="(currentStepNumber == (i+1)) ? 'nav-dot-active': ''" class="nav-dot"
+              id="img-dot-+{{i}}+{{currentStepNumber}}"></label>
+          </ng-container>
+        </li>
+      </div>
+    </ng-container>
+  </ng-template>
